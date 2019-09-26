@@ -22,6 +22,26 @@ type Chapter struct {
 // Will read in all the individual story arcs into a hash.
 type Story map[string]Chapter
 
+var defaultHandlerTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Your Own Adventure</title>
+</head>
+<body>
+    {{.Title}}
+    {{range .Paragraphs}}
+        <p>{{.}}</p>
+    {{end}}
+    <ul>
+        {{range .Options}}
+            <li><a href="/{{.Chapter}}">{{.Text}}</a></li>
+        {{end}}
+    </ul>
+</body>
+</html>`
+
 // Takes in an io.Reader returns either story or error
 func JsonStory(r io.Reader) (cyoa.Story, error) {
 	decoder := json.NewDecoder(r)
