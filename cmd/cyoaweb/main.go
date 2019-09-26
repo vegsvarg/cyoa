@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"gophercize/cyoa"
@@ -22,16 +21,10 @@ func main()  {
 	}
 
 
-	// pass in an IO.reader (any file would be of that type)
-	decoder := json.NewDecoder(fileHandle)
+	// pass in an IO.reader (any file would be of that type) to cyoa.JsonStory converter method
+	// returns cyoa.Story object and nil for error if successful
+	// returns nil for cyoa.Story object and the error if fails
+	decoded, err := cyoa.JsonStory(fileHandle)
 
-	var story cyoa.Story
-
-	if err := decoder.Decode(&story); err != nil {
-		panic(err)
-	}
-
-	// %+v will print out the entire struct, the + will print the fields too
-	// good for printing a struct
-	fmt.Printf("%+v\n", story)
+	fmt.Printf("%+v\n", decoded)
 }
